@@ -21,44 +21,28 @@ nums =  [[ 8,  2, 22, 97, 38, 15,  0, 40,  0, 75,  4,  5,  7, 78, 52, 12, 50, 77
 
 best_product = 0
 
-print "horizontal"
 for x in xrange(0, 17):
     for y in xrange(0, 20):
         product = nums[y][x] * nums[y][x+1] * nums[y][x+2] * nums[y][x+3]
         if product > best_product:
             best_product = product
-            print y
-            print x
-            print nums[y][x], nums[y][x+1], nums[y][x+2], nums[y][x+3]
 
-print "vertical"
 for x in xrange(0, 20):
     for y in xrange(0, 17):
         product = nums[y][x] * nums[y+1][x] * nums[y+2][x] * nums[y+3][x]
         if product > best_product:
             best_product = product
-            print y
-            print x
-            print nums[y][x], nums[y+1][x], nums[y+2][x], nums[y+3][x]
 
-print "diagonal down-right"
 for x in xrange(0, 17):
     for y in xrange(0, 17):
         product = nums[y][x] * nums[y+1][x+1] * nums[y+2][x+2] * nums[y+3][x+3]
         if product > best_product:
             best_product = product
-            print y
-            print x
-            print nums[y][x], nums[y+1][x+1], nums[y+2][x+2], nums[y+3][x+3]
 
-print "diagonal down-left"
 for x in xrange(3, 20):
     for y in xrange(0, 17):
         product = nums[y][x] * nums[y+1][x-1] * nums[y+2][x-2] * nums[y+3][x-3]
         if product > best_product:
             best_product = product
-            print y
-            print x
-            print nums[y][x], nums[y+1][x-1], nums[y+2][x-2], nums[y+3][x-3]
 
 print best_product
