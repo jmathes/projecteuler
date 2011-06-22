@@ -23,6 +23,20 @@ def dictfactor(n):
             d += 1
     return factors
 
+def all_factors(n):
+    dictfactors = dictfactor(n)
+    factors_so_far = [1]
+    for factor, count in dictfactors.items():
+        new_factors_list = []
+        for i in xrange(count + 1):
+            more_factors = factors_so_far * 1
+            for factorloc in xrange(len(more_factors)):
+                more_factors[factorloc] *= (factor ** i)
+            new_factors_list += more_factors
+        factors_so_far = new_factors_list
+    factors_so_far.sort()
+    return factors_so_far
+
 def expand_primes_list(primes, limit, limit_type = 'length'):
     if primes == []:
         primes = [2]
