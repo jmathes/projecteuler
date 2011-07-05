@@ -1,3 +1,6 @@
+fileprimesfile = open('primes.txt', 'rw')
+fileprimes = fileprimesfile.readlines()
+primes = [int(prime) for prime in fileprimes]
 
 def factor(n):
     d = 2
@@ -37,7 +40,14 @@ def all_factors(n):
     factors_so_far.sort()
     return factors_so_far
 
-def expand_primes_list(primes, limit, limit_type = 'length'):
+def expand_primes_list(limit=1000, limit_type = 'length'):
+    global primes
+    fileprimesfile = open('primes.txt', 'rw')
+    fileprimes = fileprimesfile.readlines()
+    fileprimes = [int(prime) for prime in fileprimes]
+    if len(fileprimes) > len(primes):
+        primes = fileprimes
+    
     if primes == []:
         primes = [2]
     test = max(3, primes[len(primes) - 1])
@@ -58,24 +68,37 @@ def expand_primes_list(primes, limit, limit_type = 'length'):
         if is_prime:
             primes.append(test)
         test += 2
+    pfile = open("primes.txt", "w")
+    pfile.writelines([str(prime) + '\n' for prime in primes])
     return primes
 
 def sieve(max):
-    primes = range(2, max)
+    sieve_primes = range(2, max)
     i = 0
     nonprime_indices = set()
     while i*i <= max:
-        prime = primes[i]
+        prime = sieve_primes[i]
         m = 1
-        while i + (prime * m) < len(primes):
+        while i + (prime * m) < len(sieve_primes):
             nonprime_indices.add(i + prime * m)
             m += 1
         i += 1
     newprimes = []
     last_prime_index = 0
     for index in nonprime_indices:
-        newprimes += primes[last_prime_index:index]
+        newprimes += sieve_primes[last_prime_index:index]
         last_prime_index = index + 1
-    newprimes += primes[last_prime_index:]
-    primes = newprimes
+    newprimes += sieve_primes[last_prime_index:]
+    sieve_primes = newprimes
+    global primes
+    if len(sieve_primes) > len(primes):
+        primes = sieve_primes
+        pfile = open("primes.txt", "w")
+        pfile.writelines([str(prime) + '\n' for prime in primes])
     return primes
+
+def is_prime(test):
+    max_prime = primes[len(primes) - 1]
+    if test > max_prime:
+        expand_primes_list(limit_type="max", limit=test)
+    return test in primes
