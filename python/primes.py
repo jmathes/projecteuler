@@ -100,5 +100,13 @@ def sieve(max):
 def is_prime(test):
     max_prime = primes[len(primes) - 1]
     if test > max_prime:
+        print "Crap, I don't have primes as high as %s. Expanding the list. This takes a while" % test
         expand_primes_list(limit_type="max", limit=test)
     return test in primes
+
+def get_primes(less_than, greater_than=1):
+    max_prime = primes[len(primes) - 1]
+    if less_than > max_prime:
+        print "Crap, I don't have primes as high as %s. Expanding the list. This takes a while" % less_than
+        expand_primes_list(limit_type="max", limit=test)
+    return [prime for prime in primes if (prime < less_than and prime > greater_than)]
