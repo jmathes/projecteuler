@@ -54,7 +54,6 @@ squaresize = 1001
 while len(spiral) < squaresize or len(spiral[0]) < squaresize:
     spiral = operation_list[i%4](spiral)
     i += 1
-    
 
 sum = 0
 for i in xrange(squaresize):
