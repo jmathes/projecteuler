@@ -1,8 +1,8 @@
-def get_all(n):
+def get_all(n, base=10):
     result = []
     while n > 0:
-        result.append(n%10)
-        n /= 10
+        result.append(n % base)
+        n /= base
     result.reverse()
     return result
 
