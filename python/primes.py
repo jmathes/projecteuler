@@ -104,6 +104,17 @@ def is_prime(test):
         expand_primes_list(limit_type="max", limit=test)
     return test in primes
 
+def is_prime_greedy(test):
+    max_prime = primes[len(primes) - 1]
+    if test > max_prime:
+        for prime in primes:
+            if test / (1.0 * prime) == int(test / (1.0 * prime)):
+                return False
+            if prime * prime > test:
+                return True
+        raise Exception("I dunno. Expand the primes list.")
+    return test in primes
+
 def get_primes(less_than, greater_than=1):
     max_prime = primes[len(primes) - 1]
     if less_than > max_prime:
