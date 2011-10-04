@@ -8,21 +8,27 @@ It can be seen that P4 + P7 = 22 + 70 = 92 = P8. However, their difference, 70  
 Find the pair of pentagonal numbers, Pj and Pk, for which their sum and difference is pentagonal and D = |Pk  Pj| is minimised; what is the value of D?
 """
 
+from cache import lru_cache
+
 def gpi():
     i = 1
     while True:
         yield (i*(3*i-1))/2
         i += 1
 
+npgpi = gpi()
+pentlist = [npgpi.next()]
+def next_pent(pent):
+    assert is_pent(pent)
+    pentlist.append(npgpi.next())
+    return pentlist[pentlist.index(pent)+1]
 
-def is_pent(n):
-    mgpi = gpi()
-    nextpent = mgpi.next()
-    while nextpent <= n:
-        if nextpent == n:
-            return True
-        nextpent = mgpi.next()
-    return False
+def is_pent(candidate):
+    while candidate not in pentlist:
+        if pentlist[len(pentlist)-1] > candidate:
+            return False
+        pentlist.append(npgpi.next())
+    return True
 
 assert is_pent(1)
 assert is_pent(5)
@@ -32,19 +38,40 @@ assert is_pent(35)
 assert not is_pent(33)
 assert not is_pent(7)
 
-mgpi = gpi()
-sgpi = gpi()
-hgpi = gpi()
-lower_pent = sgpi.next()
-higher_pent = sgpi.next()
-sum = hgpi.next()
-for diff in mgpi:
-    while higher_pent - lower_pent <= diff:
-        if higher_pent - lower_pent == diff:
-            while higher_pent + lower_pent >= sum:
-                if higher_pent + lower_pent == sum:
-                    print sum
-                    exit(0)
-                sum = hgpi.next()
-        lower_pent = higher_pent
-        higher_pent = sgpi.next()
+scout = gpi()
+candidate = scout.next()
+smaller = 0
+larger = 1
+print "candidate: ", candidate
+while True:
+    while pentlist[larger] + pentlist[smaller] < candidate:
+        larger += 1
+        while larger >= len(pentlist):
+            pentlist.append(npgpi.next())
+    if pentlist[larger] + pentlist[smaller] == candidate:
+        print "pents %s and %s sum to %s" % (pentlist[smaller], pentlist[larger], candidate)
+        if is_pent(pentlist[larger] - pentlist[smaller]):
+            print " ... and diff to %s! success" % (pentlist[larger] - pentlist[smaller])
+            exit(0)
+        else:
+            smaller += 1
+            larger = smaller + 1
+            while larger >= len(pentlist):
+                pentlist.append(npgpi.next())
+    elif larger - smaller == 1:
+        print "candidate: ", candidate
+        candidate = scout.next()
+        smaller = 0
+        larger = 1
+    else:
+        smaller += 1
+        larger = smaller + 1
+        while larger >= len(pentlist):
+            pentlist.append(npgpi.next())
+
+"""
+Maybe not the best answer:
+
+pents 1560090 and 7042750 sum to 8602840
+ ... and diff to 5482660! success
+"""
