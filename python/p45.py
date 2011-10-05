@@ -9,36 +9,44 @@ It can be verified that T285 = P165 = H143 = 40755.
 Find the next triangle number that is also pentagonal and hexagonal.
 """
 
-def triags(i=1):
+types = ['T', 'P']
+
+
+def get_triag_iterator():
+    i = 285
     while True:
+        i += 1
         yield (i*(i+1))/2
-        i += 1
 
-def pents(i=1):
+def get_pent_iterator():
+    i = 165
     while True:
+        i += 1
         yield (i*(3*i-1))/2
-        i += 1
 
-def hexs(i=1):
+def get_hex_iterator():
+    i = 143
     while True:
-        yield (i*(2*i-1))/2
         i += 1
+        yield i*(2*i-1)
 
 
-tl = triags(285)
-pl = pents(165)
-hl = hexs(144)
+tgen = get_triag_iterator()
+pgen = get_pent_iterator()
+hgen = get_hex_iterator()
 
-t = tl.next()
-p = pl.next()
-h = hl.next()
 
+
+hex = hgen.next()
+triag = tgen.next()
+triag = tgen.next()
+pent = pgen.next()
 while True:
-    while t < h:
-        t = tl.next()
-    while p < h:
-        p = pl.next()
-    if p == t and t == h:
-        print p
-        exit()
-    h = hl.next()
+    while pent < hex:
+        pent = pgen.next()
+    while triag < hex:
+        triag = tgen.next()
+    if pent == hex and triag == hex:
+        print hex
+        exit(0)
+    hex = hgen.next()

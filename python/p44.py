@@ -8,8 +8,6 @@ It can be seen that P4 + P7 = 22 + 70 = 92 = P8. However, their difference, 70  
 Find the pair of pentagonal numbers, Pj and Pk, for which their sum and difference is pentagonal and D = |Pk  Pj| is minimised; what is the value of D?
 """
 
-from cache import lru_cache
-
 def gpi():
     i = 1
     while True:
