@@ -3,18 +3,20 @@ fileprimes = fileprimesfile.readlines()
 primes = [int(prime) for prime in fileprimes]
 
 def factor(n):
-    d = 2
+    pi = primes_iterator()
+    d = pi.next()
     factors = []
     while d <= n:
         if n % d == 0:
             n /= d
             factors.append(d)
         else:
-            d += 1
+            d = pi.next()
     return factors
 
 def dictfactor(n):
-    d = 2
+    pi = primes_iterator()
+    d = pi.next()
     factors = {}
     while d <= n:
         if n % d == 0:
@@ -23,7 +25,7 @@ def dictfactor(n):
             factors[d] += 1
             n /= d
         else:
-            d += 1
+            d = pi.next()
     return factors
 
 def all_factors(n):
@@ -114,6 +116,11 @@ def is_prime_greedy(test):
                 return True
         raise Exception("I dunno. Expand the primes list.")
     return test in primes
+
+def primes_iterator():
+    for prime in primes:
+        yield prime
+    raise Exception ("Primes iterator doesn't support finding new primes")
 
 def get_primes(less_than, greater_than=1):
     max_prime = primes[len(primes) - 1]
